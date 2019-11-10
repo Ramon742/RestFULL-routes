@@ -1,9 +1,33 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET home page. */
+
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+
+});
+
+router.get('/posts', function(req, res, next) {
+
+});
+
+router.post('/posts', function(req, res, next) {
+
+});
+
+router.get('/posts/:id', function(req, res, next) {
+
+});
+
+router.get('/posts/:id/edit', function(req, res, next) {
+
+});
+
+router.put('/posts/:id', function(req, res, next) {
+
+});
+
+router.delete('/posts/:id', function(req, res, next) {
+
 });
 
 module.exports = router;
