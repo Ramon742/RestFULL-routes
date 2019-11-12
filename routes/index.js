@@ -2,37 +2,43 @@ var express = require('express');
 var router = express.Router();
 var Post = require('../models/post');
 
-router.get('/', (req, res, next) => {
-  res.render('home');
-});
-
-router.get('/posts', function(req, res, next) {
+router.get('/posts', async (req, res, next) => {
   let posts = await Post.find({});
-  res.render('index');
+  res.render('index', posts);
 });
 
-router.post('/posts', function(req, res, next) {
-  const {title, body} = req.body;
-  await Post.create({title, body});
+router.get('/posts/new', (req, res, next) => {
+  res.render('new');
 });
 
-router.get('/posts/:id', function(req, res, next) {
-  let post = Post.findById(req.params.id);
+router.post('/posts', async (req, res, next) => {
+  const post = new Post(req.body.post);
+	post.save();
+});
+
+router.get('/posts/:id', async(req, res, next) => {
+  let post = await Post.findById(req.params.id);
   res.render('show' , {post});
 });
 
-router.get('/posts/:id/edit', function(req, res, next) {
-  let post = Post.findById(req.params.id);
+router.get('/posts/:id/edit', async(req, res, next) => {
+  let post = await Post.findById(req.params.id);
   res.render('edit', {post});
 });
 
-router.put('/posts/:id', function(req, res, next) {
-  let post = await Post.findByIdAndUpdate(req.params.id, req.body.post);
+router.put('/posts/:id', async(req, res, next) => {
+  const { post } = res.locals;
+  post.name = req.body.post.name;
+	post.price = req.body.post.price;
+  post.date = req.body.post.date;
+  post.description = req.body.post.description;
+  await post.save();
   res.redirect(`/posts/${post.id}`);
 });
 
-router.delete('/posts/:id', function(req, res, next) {
+router.delete('/posts/:id', async(req, res, next) => {
   await Post.findByIdAndRemove(req.params.id);
+  res.redirect('/posts');
 });
 
 module.exports = router;

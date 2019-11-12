@@ -11,7 +11,7 @@ const usersRouter = require('./routes/users');
 const app = express();
 
 //conectar banco de dado
-mongoose.connect('mongodb://localhost:27017/gameapp', {useNewUrlParser: true, useCreateIndex: true});
+mongoose.connect('mongodb://localhost:27017/testt', {useNewUrlParser: true, useCreateIndex: true});
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
